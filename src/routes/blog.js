@@ -7,7 +7,7 @@ const {
 } = require('../controllers/blog');
 const { SuccessModel, ErrorModel } = require('../models/resModel');
 
-const handleBlogRouter = (req, res) => {
+const handleBlogRouter = async (req, res) => {
   const method = req.method;
   const path = req.path;
 
@@ -15,25 +15,25 @@ const handleBlogRouter = (req, res) => {
     const author = req.query.author || '';
     const kw = req.query.kw || '';
 
-    const list = getList(author, kw);
+    const list = await getList(author, kw);
 
     return new SuccessModel(list);
   }
 
   if (method === 'GET' && path === '/api/blog/detail') {
     const id = req.query.id;
-    const detail = getDetailById(id);
+    const detail = await getDetailById(id);
     return new SuccessModel(detail);
   }
 
   if (method === 'POST' && path === '/api/blog/new') {
-    const res = newBlog(req.body);
+    const res = await newBlog(req.body);
     return new SuccessModel(res);
   }
 
   if (method === 'DELETE' && path === '/api/blog/del') {
     const { id } = req.query;
-    const res = deleteBlog(id);
+    const res = await deleteBlog(id);
 
     if (res) {
       return new SuccessModel(res);
@@ -43,8 +43,9 @@ const handleBlogRouter = (req, res) => {
   }
 
   if (method === 'POST' && path === '/api/blog/update') {
-    const { id, content } = req.query;
-    const res = updateBlog(id, content);
+    const { id } = req.query;
+    const data = req.body;
+    const res = await updateBlog(id, data);
 
     if (res) {
       return new SuccessModel(res);

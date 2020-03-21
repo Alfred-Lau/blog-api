@@ -43,16 +43,16 @@ const handler = (req, res) => {
   req.query = querystring.parse(req.url.split('?')[1]);
   req.path = req.url.split('?')[0];
 
-  getPostData(req).then(postData => {
+  getPostData(req).then(async postData => {
     req.body = postData;
 
-    let blogData = handleBlogRouter(req, res);
+    let blogData = await handleBlogRouter(req, res);
     if (blogData) {
       res.end(JSON.stringify(blogData));
       return;
     }
 
-    let userData = handleUserHandler(req, res);
+    let userData = await handleUserHandler(req, res);
     if (userData) {
       res.end(JSON.stringify(userData));
       return;
