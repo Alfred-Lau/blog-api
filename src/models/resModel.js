@@ -1,8 +1,37 @@
-class resModel {
-  list() {
-    console.log('这是第一步的需求');
-    return;
+class BaseModel {
+  constructor(data, message) {
+    // 传参兼容处理
+    if (typeof data === 'string') {
+      this.message = data;
+      data = null;
+      message = null;
+    }
+
+    if (data) {
+      this.data = data;
+    }
+
+    if (message) {
+      this.message = message;
+    }
   }
 }
 
-module.exports = resModel;
+class SuccessModel extends BaseModel {
+  constructor(data, message) {
+    super(data, message);
+    this.errno = 0;
+  }
+}
+
+class ErrorModel extends BaseModel {
+  constructor(data, message) {
+    super(data, message);
+    this.errno = -1;
+  }
+}
+
+module.exports = {
+  ErrorModel,
+  SuccessModel
+};

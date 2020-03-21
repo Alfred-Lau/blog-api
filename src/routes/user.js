@@ -1,12 +1,18 @@
-const handleUserRouter = (req, res) => {
-  const method = req.method;
-  const url = req.url;
+const { login } = require('../controllers/user');
+const { SuccessModel, ErrorModel } = require('../models/resModel');
 
-  if (method === 'POST' && url === '/api/user/login') {
-    return {
-      name: '刘健',
-      slogan: '加油'
-    };
+const handleUserRouter = req => {
+  const method = req.method;
+  const path = req.path;
+
+  if (method === 'POST' && path === '/api/user/login') {
+    const { username, password } = req.body;
+    const res = login(username, password);
+    if (res) {
+      return new SuccessModel(res);
+    } else {
+      return new ErrorModel('登录失败');
+    }
   }
 };
 
