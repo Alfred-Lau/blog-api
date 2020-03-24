@@ -8,4 +8,9 @@ const MYSQL_CONFIG = {
   database: 'blog-api'
 };
 
-module.exports = { MYSQL_CONFIG };
+const REDIS_CONFIG = {
+  host: isDev ? 'localhost' : '',
+  port: 6379
+};
+
+module.exports = { MYSQL_CONFIG, REDIS_CONFIG };

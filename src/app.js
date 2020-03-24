@@ -1,8 +1,16 @@
 const http = require('http');
 const querystring = require('querystring');
 
+// const { get, set } = require('./db/redis');
+
 const handleBlogRouter = require('./routes/blog');
 const handleUserHandler = require('./routes/user');
+
+// 解析 SESSION
+
+// 设置 cookie 过期时间
+
+// setCookie
 
 const getPostData = req => {
   return new Promise(resolve => {
@@ -42,6 +50,10 @@ const handler = (req, res) => {
   // 解析 query,挂到 req 上面
   req.query = querystring.parse(req.url.split('?')[1]);
   req.path = req.url.split('?')[0];
+
+  // 处理挂载 cookie
+
+  // 处理 Session
 
   getPostData(req).then(async postData => {
     req.body = postData;
